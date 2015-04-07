@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <link href="jquery.mobile-1.3.2.css" rel="stylesheet" type="text/css">
+    <script src="jquery.js" type="text/javascript">
+    </script>
+    <script src="jquery.mobile-1.3.2.js" type="text/javascript">
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    $(function() {
+        var str_username = window.localStorage.getItem("username");
+
+        var url = "http://127.0.0.1/login/list.php?username=" + str_username + "&callback=?";
+        //var result=[];
+        /*
+        var result=[  
+                    {"location_name":"Test1","date":"Sat Sep 06 2014 12:40:00 GMT 0100 (GMT S"},
+                    {"location_name":"Test2","date":"Sat Sep 06 2014 12:56:00 GMT 0100 (GMT S"},
+                    {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"},
+                    {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"},
+                    
+                 ]; 
+         */
+
+        //showList(getData(url));
+        getData(url);
+
+        function getData(url) {
+
+            $.getJSON(url, function(data) {
+
+                showList(data);
+            });
+
+        }
+
+        //showList(result);
+        function showList(data) {
+
+                var viewObj = $("#allProductUl");
+
+                for (var i = 0; i < data.length; i++) {
+
+                    var showObj = $("#allProductLi").clone();
+
+                    for (var key in data[i]) {
+                        $("[dbField='" + key + "']", showObj).html(data[i][key]);
+                    }
+
+                    viewObj.append(showObj);
+                }
+                viewObj.listview("refresh");
+
+            }
+            /* $('#allProductUl ul').children('li').bind('touchstart mousedown', function(e) {
+                       alert('Selected Name=' + $.attr('location_name').value());
+                       }); 
+                   var result=[  
+                       {"location_name":"Test1","date":"Sat Sep 06 2014 12:40:00 GMT 0100 (GMT S"},
+                       {"location_name":"Test2","date":"Sat Sep 06 2014 12:56:00 GMT 0100 (GMT S"},
+                       {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"},
+                       {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"}
+                       
+                    ]; 
+                    */
+            /*
+                     var data=[  
+                                {"location_name":"Test1","date":"Sat Sep 06 2014 12:40:00 GMT 0100 (GMT S"},
+                                {"location_name":"Test2","date":"Sat Sep 06 2014 12:56:00 GMT 0100 (GMT S"},
+                                {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"},
+                                {"location_name":"Test10","date":"Tue Sep 09 2014 14:12:00 GMT 0100 (GMT Standard Time)"}
+                                
+                             ];  
+                  
+                     */
+
+
+
+        //viewObj.selectmenu("refresh",true);  
+
+    });
+    </script>
+    <div data-role="page" id="allProduct" data-fullscreen="false">
+        <div data-role="header" data-theme="b" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="" data-ajax="false" class="ui-btn-active" data-transition="none">Activity List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="allProductUl" data-role="listview" data-inset="true" style="margin-top:0px;">
+
+            <li id="allProductLi">
+                <a href="/productDetail.vm" data-transition="slide" data-ajax="false">
+                    <!--<img src="" style="margin-top:10px;">-->
+                </a>
+
+                <h4 class="productName" style="margin-top:0px;" dbfield='productName'>
+                    <a href="/productDetail.vm" data-transition="slide" data-ajax="false">Event</a>
+                </h4>
+
+                <p class="productPrice" style="margin-top:10px;">
+                    <a href="/productDetail.vm" data-transition="slide" data-ajax="false">
+
+                        <span dbfield='location_name' style="color:#f00;"></span>
+                        <span style="margin-left:10px;"></span>
+                        <span dbfield='date'></span>
+                    </a>
+                </p>
+
+                <a href="/productDetail.vm" data-transition="slide" data-ajax="false"></a>
+                <!--<p style="margin-top:10px;margin-bottom:5px;">
+                <span style="font-size:12px;">库存：</span>
+                <span dbfield='repertory' style="font-size:12px;">60</span>
+                <span style="font-size:12px;">件</span>
+                <span style="margin-left:10px;font-size:12px;">已卖:</span>
+                <span style="color:#f00;font-size:12px;" dbfield='sale'>20</span>
+                <span style="color:#000;font-size:12px;">件</span>
+            </p>-->
+            </li>
+        </ul>
+    </div>

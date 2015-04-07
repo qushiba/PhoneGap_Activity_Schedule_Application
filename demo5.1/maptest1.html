@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description"
+   content="" />
+  <meta name="keywords" content="" />
+  <title></title>
+  <script
+   src="http://api.mapabc.com/fmp/v1.0/js/fmp.js?key=898d9d3a6020c830abbc78270f50b1a13c8d3cade5a8d21328d4a7803428551a9e4fdd23cbc00259"></script>
+ </head>
+ <body>
+  <div id="mapObj" style="height:400px;width:500px"></div>
+  <SCRIPT LANGUAGE="JavaScript">
+  var city_center_index = "上海";
+  var hotelname = "东方大酒店";
+  //设置地图初始化参数对象
+  var mapOptions = new MMapOptions();
+  //设置地图组件的Id
+  mapOptions.mapId = "fmptest";
+  //设置地图的初始Zoom值
+  mapOptions.zoomLevel = 17;
+  //设置地图的中心点
+  mapOptions.center = new MLatLng(city_center_index);
+     
+  //创建地图对象
+  var mapObj = new MMap("mapObj", mapOptions);
+  mapObj.showNavigator(true);
+  //添加酒店地址气泡
+   //创建样式的对象
+  var pointStyle = new MStyle();
+//设置样式底线的颜色
+  pointStyle.lineColor = "0xF1FCDA";
+//设置样式大小
+  pointStyle.lineSize = 1;
+//设置填充的颜色
+  pointStyle.fillColor = 0xddaa99;
+//设置样式的透明度
+  pointStyle.fillOpacity = 80;
+  pointStyle.labelColor = 0x553344;
+  mapObj.addOverlay(new MCustomPointOverlay(new MLatLng(city_center_index), "http://api.mapabc.com/fmp/test/components/point/DynamicPoint/redbubble.swf", pointStyle, 1), true);
+  </script>
+ </body>
+</html>

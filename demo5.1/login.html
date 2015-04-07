@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        jQuery Mobile Web application
+    </title>
+    <link href="jquery.mobile-1.3.2.css" rel="stylesheet" type="text/css">
+    <script src="jquery.js" type="text/javascript">
+    </script>
+    <script src="jquery.mobile-1.3.2.js" type="text/javascript">
+    </script>
+
+</head>
+
+<body>
+    <script type="text/javascript">
+    $(function() {
+
+        //val=document.getElementById("name").value;
+        //val1=document.getElementById("password").value;
+
+
+        $(document).on('click', '#login', function() {
+            val = $("#name")[0].value;
+            validateName(val);
+            val1 = $("#password")[0].value;
+            validatePassword(val1);
+            var url = "http://127.0.0.1/login/login.php?name=" + val + "&password=" + val1 + "&callback=?";
+            //var url="http://127.0.0.1/login/login";
+            var str_username = $("#name").val();
+            window.localStorage.setItem("username", str_username);
+            //设置cookie  
+            function setCookie(name, value, seconds) {
+                seconds = seconds || 0; //seconds有值就直接赋值，没有为0，这个根php不一样。  
+                var expires = "";
+                if (seconds != 0) { //设置cookie生存时间  
+                    var date = new Date();
+                    date.setTime(date.getTime() + (seconds * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                }
+                document.cookie = name + "=" + escape(value) + expires + "; path=/"; //转码并赋值  
+            }
+
+            setCookie("username", val, 1800);
+            //$(document).on('click','#login',function(){
+
+
+
+            $.getJSON(url, function(data) {
+                if (data.confirm == 'yes') {
+                    //alert("confirm:"+data.confirm);
+                    //window.location.href='caltest.html';
+                    var url1 = "caltest.html?username=" + encodeURIComponent(val);
+                    window.location.href = url1;
+                }
+            });
+            //})
+
+        });
+
+
+
+        $(document).on('click', '#forget', function() {
+            window.location.href = 'registered.html';
+        })
+
+
+        function validateName(field) {
+            if (field == "") {
+                alert("No username input");
+                msg_reset_name();
+            }
+        }
+
+        function reset_password() {
+            $("input:password").val("");
+        }
+
+        function msg_reset_name() {
+            $("input:text").val("");
+        }
+
+
+        function validatePassword(field) {
+                if (field == "") {
+                    alert("No Password was entered");
+                    reset_password();
+                } else if (field.length < 6) {
+                    alert("Password must be at least 6 characters");
+                    reset_password();
+                } else if (!/[a-z]/.test(field) || !/[A-Z]/.test(field) ||
+                    !/[0-9]/.test(field)) {
+                    alert("Password require one each of a-z,A-Z and 0-9");
+                    reset_password();
+                }
+            }
+            /*
+		function send_user(field,field1){
+			
+				$.getJSON("http://127.0.0.1/login/login_test.php?callback=?",
+				{
+					foo:({"name":field,"password":field1}),
+					format:"json"
+				},
+				function(data){
+					alert(data.format);
+				}
+				)
+			}   
+			*/
+
+
+    })
+    </script>
+    <div data-role="page" id="page">
+        <div data-role="header" data-theme="b">
+            <h1>
+                Login
+            </h1>
+        </div>
+        <div data-role="content">
+            <div data-role="fieldcontain">
+                <form>
+                    <label for="name">name:</label>
+                    <input type="text" name="name" id="name" placeholder="please input your username here" value="">
+                    <label for="password">password:</label>
+                    <input type="password" name="password" id="password" placeholder="ABcd1234" value="">
+                    <br>
+                    <input type="button" name="login" id="login" value="login" data-inline="true" data-theme="b">
+                    <input type="button" name="forget" id="forget" value="forget" data-inline="true" data-theme="b">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
